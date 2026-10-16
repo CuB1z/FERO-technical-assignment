@@ -4,6 +4,7 @@ import pytest
 from alembic import command
 from alembic.config import Config
 from httpx import ASGITransport, AsyncClient
+from sqlalchemy import text
 from testcontainers.community.postgres import PostgresContainer
 
 from app.core.config import settings
@@ -29,6 +30,12 @@ def database():
 async def engine(database):
     yield get_engine()
     await get_engine().dispose()
+
+
+@pytest.fixture(autouse=True)
+async def clean_jobs(engine):
+    async with engine.begin() as connection:
+        await connection.execute(text("TRUNCATE jobs"))
 
 
 @pytest.fixture
