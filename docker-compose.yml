@@ -15,5 +15,19 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  api:
+    build: .
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+    ports:
+      - "${API_PORT:-8000}:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
 volumes:
   pgdata:
