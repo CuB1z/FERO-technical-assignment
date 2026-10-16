@@ -4,7 +4,7 @@ from pydantic import Field, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import URL
 
-APP_VERSION = "0.1.0"
+APP_VERSION = "1.0.0"
 
 
 class Settings(BaseSettings):
